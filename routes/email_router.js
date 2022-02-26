@@ -10,7 +10,7 @@ const maybeAddZero = (digit) => (parseInt(digit, 10) < 10 ? `0${digit}` : digit)
 const transport = {
   host: 'smtp.gmail.com',
   port: 465,
-  secure: true, // use TLS
+  secure: true,
   auth: {
     type: 'OAuth2',
     user: process.env.MAIL_USERNAME,
@@ -27,20 +27,14 @@ const transporter = nodemailer.createTransport(transport);
 // eslint-disable-next-line no-unused-vars
 transporter.verify((err, _) => {
   if (err) {
-    // if error happened code ends here
     logger.logError(err);
   } else {
-    // this means success
     logger.logSuccess('Ready to send mail!');
   }
 });
 
-// Set app to use proper methods to parse our data
-// parse application/json
 router.use(bodyParser.json());
-// parse application/x-www-form-urlencoded
 router.use(bodyParser.urlencoded({ extended: true }));
-
 router.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
